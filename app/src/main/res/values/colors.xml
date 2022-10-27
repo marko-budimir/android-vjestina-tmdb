@@ -8,5 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="actor_card_character_name">#828282</color>
+    <color name="grey_text">#828282</color>
+    <color name="favorite_button_background">#990B253F</color>
 </resources>

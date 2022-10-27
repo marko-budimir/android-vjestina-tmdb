@@ -59,7 +59,7 @@ fun ActorCard(
                 text = actorCardViewState.character,
                 fontSize = 12.sp,
                 modifier = Modifier.padding(start = 10.dp, end = 10.dp),
-                color = colorResource(id = R.color.actor_card_character_name),
+                color = colorResource(id = R.color.grey_text),
                 fontFamily = proximaNovaFamily,
                 fontWeight = FontWeight.Normal
             )
