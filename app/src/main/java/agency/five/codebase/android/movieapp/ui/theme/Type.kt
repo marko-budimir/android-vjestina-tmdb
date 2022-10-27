@@ -32,5 +32,6 @@ val Typography = Typography(
 
 val proximaNovaFamily = FontFamily(
     Font(R.font.proxima_nova_regular, FontWeight.Normal),
+    Font(R.font.proxima_nova_bold, FontWeight.Bold),
     Font(R.font.proxima_nova_extrabold, FontWeight.ExtraBold)
 )
