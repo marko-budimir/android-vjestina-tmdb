@@ -1,28 +1,24 @@
 package agency.five.codebase.android.movieapp.ui.component
 
 import agency.five.codebase.android.movieapp.R
-import agency.five.codebase.android.movieapp.ui.theme.proximaNovaFamily
+import agency.five.codebase.android.movieapp.ui.theme.Typography
 import androidx.annotation.StringRes
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
-sealed class MovieCategoryLabelTextViewState
-
-class MovieCategoryLabelWithText(val text: String) : MovieCategoryLabelTextViewState()
-class MovieCategoryLabelWithResource(@StringRes val textRes: Int) :
-    MovieCategoryLabelTextViewState()
+sealed class MovieCategoryLabelTextViewState {
+    data class Text(val text: String) : MovieCategoryLabelTextViewState()
+    data class TextRes(@StringRes val textRes: Int) : MovieCategoryLabelTextViewState()
+}
 
 
 data class MovieCategoryLabelViewState(
@@ -34,29 +30,31 @@ data class MovieCategoryLabelViewState(
 @Composable
 fun MovieCategory(
     labelViewState: MovieCategoryLabelViewState,
+    onItemClick: (MovieCategoryLabelViewState) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier.wrapContentSize()) {
+    Column(modifier = modifier) {
         when (labelViewState.categoryText) {
-            is MovieCategoryLabelWithText -> {
+            is MovieCategoryLabelTextViewState.Text -> {
                 Text(
                     text = labelViewState.categoryText.text,
-                    fontSize = 16.sp,
+                    style = Typography.h5,
                     color = colorResource(id = if (labelViewState.isSelected) R.color.black else R.color.grey_text),
-                    fontFamily = proximaNovaFamily,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(bottom = 10.dp),
-                    textDecoration = if (labelViewState.isSelected) TextDecoration.Underline else TextDecoration.None
+                    textDecoration = if (labelViewState.isSelected) TextDecoration.Underline else TextDecoration.None,
+                    modifier = Modifier
+                        .clickable { onItemClick(labelViewState) }
+
                 )
             }
-            is MovieCategoryLabelWithResource -> {
+            is MovieCategoryLabelTextViewState.TextRes -> {
                 Text(
                     text = stringResource(id = labelViewState.categoryText.textRes),
-                    fontSize = 16.sp,
+                    style = Typography.h5,
                     color = colorResource(id = if (labelViewState.isSelected) R.color.black else R.color.grey_text),
-                    fontFamily = proximaNovaFamily,
-                    fontWeight = FontWeight.Bold,
-                    textDecoration = if (labelViewState.isSelected) TextDecoration.Underline else TextDecoration.None
+                    textDecoration = if (labelViewState.isSelected) TextDecoration.Underline else TextDecoration.None,
+                    modifier = Modifier
+                        .clickable { onItemClick(labelViewState) }
+
                 )
             }
         }
@@ -67,20 +65,30 @@ fun MovieCategory(
 @Preview
 @Composable
 fun MovieCategoryPreview() {
+    var isSelectedFirst by remember { mutableStateOf(true) }
+    var isSelectedSecond by remember { mutableStateOf(false) }
     Row {
         MovieCategory(
             MovieCategoryLabelViewState(
                 1,
-                true,
-                MovieCategoryLabelWithText("Movie")
-            )
+                isSelectedFirst,
+                MovieCategoryLabelTextViewState.Text("Movie")
+            ),
+            onItemClick = {
+                isSelectedFirst = true
+                isSelectedSecond = false
+            }
         )
         MovieCategory(
             MovieCategoryLabelViewState(
                 1,
-                false,
-                MovieCategoryLabelWithText("Movie")
-            )
+                isSelectedSecond,
+                MovieCategoryLabelTextViewState.Text("Movie")
+            ),
+            onItemClick = {
+                isSelectedFirst = false
+                isSelectedSecond = true
+            }
         )
     }
 
