@@ -3,4 +3,6 @@
     <dimen name="actor_card_elevation">20dp</dimen>
     <dimen name="actor_card_height">209dp</dimen>
     <dimen name="actor_card_width">125dp</dimen>
+
+    <dimen name="favorite_button_size">32dp</dimen>
 </resources>
