@@ -1,41 +1,39 @@
 package agency.five.codebase.android.movieapp.ui.component
 
 import agency.five.codebase.android.movieapp.R
-import agency.five.codebase.android.movieapp.ui.theme.proximaNovaFamily
+import agency.five.codebase.android.movieapp.mock.MoviesMock
+import agency.five.codebase.android.movieapp.ui.theme.Typography
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
+@Immutable
+data class CrewItemViewState(
+    val name: String,
+    val job: String,
+)
 
 @Composable
 fun CrewItem(
-    name: String,
-    profession: String,
+    crewItemViewState: CrewItemViewState,
     modifier: Modifier = Modifier
 ) {
 
     Column(modifier = modifier) {
         Text(
-            text = name,
-            fontSize = 14.sp,
-            fontFamily = proximaNovaFamily,
-            fontWeight = FontWeight.ExtraBold
+            text = crewItemViewState.name,
+            style = Typography.h6
         )
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier)
         Text(
-            text = profession,
-            fontSize = 12.sp,
+            text = crewItemViewState.job,
             color = colorResource(id = R.color.grey_text),
-            fontFamily = proximaNovaFamily,
-            fontWeight = FontWeight.Normal
+            style = Typography.body2
         )
     }
 
@@ -44,5 +42,8 @@ fun CrewItem(
 @Preview
 @Composable
 private fun CrewItemPreview() {
-    CrewItem(name = "Jon Favreau", profession = "Director")
+    val mockCrewman = MoviesMock.getCrewman()
+    CrewItem(
+        crewItemViewState = CrewItemViewState(name = mockCrewman.name, job = mockCrewman.job)
+    )
 }
