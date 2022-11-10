@@ -2,23 +2,23 @@ package agency.five.codebase.android.movieapp.ui.component
 
 
 import agency.five.codebase.android.movieapp.R
-import agency.five.codebase.android.movieapp.ui.theme.proximaNovaFamily
+import agency.five.codebase.android.movieapp.mock.MoviesMock
+import agency.five.codebase.android.movieapp.ui.theme.Typography
+import agency.five.codebase.android.movieapp.ui.theme.spacing
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 
 
@@ -34,11 +34,9 @@ fun ActorCard(
     modifier: Modifier = Modifier
 ) {
     Card(
-        elevation = 20.dp,
-        modifier = modifier
-            .padding(10.dp)
-            .size(125.dp, 209.dp),
-        shape = RoundedCornerShape(10.dp)
+        elevation = dimensionResource(id = R.dimen.actor_card_elevation),
+        modifier = modifier,
+        shape = MaterialTheme.shapes.medium
     ) {
         Column {
             AsyncImage(
@@ -50,18 +48,17 @@ fun ActorCard(
             )
             Text(
                 text = actorCardViewState.name,
-                fontSize = 14.sp,
-                modifier = Modifier.padding(start = 10.dp, end = 28.dp, top = 5.dp, bottom = 5.dp),
-                fontFamily = proximaNovaFamily,
-                fontWeight = FontWeight.ExtraBold
+                style = Typography.h6,
+                modifier = Modifier.padding(all = MaterialTheme.spacing.small)
             )
             Text(
                 text = actorCardViewState.character,
-                fontSize = 12.sp,
-                modifier = Modifier.padding(start = 10.dp, end = 10.dp),
-                color = colorResource(id = R.color.grey_text),
-                fontFamily = proximaNovaFamily,
-                fontWeight = FontWeight.Normal
+                style = Typography.subtitle2,
+                modifier = Modifier.padding(
+                    start = MaterialTheme.spacing.small,
+                    end = MaterialTheme.spacing.small
+                ),
+                color = colorResource(id = R.color.grey_text)
             )
         }
     }
@@ -70,11 +67,20 @@ fun ActorCard(
 @Preview
 @Composable
 private fun ActorCardPreview() {
-    ActorCard(
-        actorCardViewState = ActorCardViewState(
-            "https://d34urnl45u363e.cloudfront.net/store/mediaobject/54905/image/large-0ff8de2ac61eeada073b984e50efd977.jpg",
-            "Robert Downey Jr.",
-            "Tony Stark/Iron Man"
+    val movieActorCardViewState = MoviesMock.getActor().let { actor ->
+        ActorCardViewState(
+            imageUrl = actor.imageUrl.orEmpty(),
+            name = actor.name,
+            character = actor.character
         )
+    }
+    ActorCard(
+        actorCardViewState = movieActorCardViewState,
+        modifier = Modifier
+            .padding(MaterialTheme.spacing.small)
+            .size(
+                dimensionResource(id = R.dimen.actor_card_width),
+                dimensionResource(id = R.dimen.actor_card_height)
+            )
     )
 }

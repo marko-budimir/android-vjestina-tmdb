@@ -9,11 +9,59 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 // Set of Material typography styles to start with
+val proximaNovaFamily = FontFamily(
+    Font(R.font.proxima_nova_regular, FontWeight.Normal),
+    Font(R.font.proxima_nova_bold, FontWeight.Bold),
+    Font(R.font.proxima_nova_extrabold, FontWeight.ExtraBold)
+)
+
 val Typography = Typography(
-    body1 = TextStyle(
-        fontFamily = FontFamily.Default,
+    h2 = TextStyle(
+        fontFamily = proximaNovaFamily,
+        fontWeight = FontWeight.ExtraBold,
+        fontSize = 24.sp
+    ),
+    h3 = TextStyle(
+        fontFamily = proximaNovaFamily,
+        fontWeight = FontWeight.ExtraBold,
+        fontSize = 20.sp
+    ),
+    h4 = TextStyle(
+        fontFamily = proximaNovaFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp
+    ),
+    h5 = TextStyle(
+        fontFamily = proximaNovaFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 16.sp
+    ),
+    h6 = TextStyle(
+        fontFamily = proximaNovaFamily,
+        fontWeight = FontWeight.ExtraBold,
+        fontSize = 14.sp
+    ),
+
+    subtitle1 = TextStyle(
+        fontFamily = proximaNovaFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
+    ),
+    subtitle2 = TextStyle(
+        fontFamily = proximaNovaFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp
+    ),
+
+    body1 = TextStyle(
+        fontFamily = proximaNovaFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp
+    ),
+    body2 = TextStyle(
+        fontFamily = proximaNovaFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp
     )
 
     /* Other default text styles to override
@@ -30,8 +78,3 @@ val Typography = Typography(
     */
 )
 
-val proximaNovaFamily = FontFamily(
-    Font(R.font.proxima_nova_regular, FontWeight.Normal),
-    Font(R.font.proxima_nova_bold, FontWeight.Bold),
-    Font(R.font.proxima_nova_extrabold, FontWeight.ExtraBold)
-)
