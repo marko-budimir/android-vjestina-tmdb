@@ -1,7 +1,7 @@
 package agency.five.codebase.android.movieapp.ui.component
 
 import agency.five.codebase.android.movieapp.R
-import agency.five.codebase.android.movieapp.ui.theme.proximaNovaFamily
+import agency.five.codebase.android.movieapp.ui.theme.Typography
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
@@ -12,11 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 @Composable
 fun UserScoreProgressBar(
@@ -48,9 +46,7 @@ fun UserScoreProgressBar(
         }
         Text(
             text = trueScore.toString(),
-            fontFamily = proximaNovaFamily,
-            fontWeight = FontWeight.Bold,
-            fontSize = 16.sp
+            style = Typography.h5
         )
     }
 
