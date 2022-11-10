@@ -5,4 +5,8 @@
     <dimen name="actor_card_width">125dp</dimen>
 
     <dimen name="favorite_button_size">32dp</dimen>
+
+    <dimen name="movie_card_elevation">10dp</dimen>
+    <dimen name="movie_card_height">179dp</dimen>
+    <dimen name="movie_card_width">122dp</dimen>
 </resources>
