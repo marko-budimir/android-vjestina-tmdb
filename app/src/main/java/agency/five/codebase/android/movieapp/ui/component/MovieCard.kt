@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 
 data class MovieCardViewState(
-    val imageUrl: String,
+    val imageUrl: String?,
     val isFavorite: Boolean
 )
 
