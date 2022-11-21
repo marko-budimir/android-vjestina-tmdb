@@ -8,6 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="black_text">#0B253F</color>
+    <color name="white_text">#F2F2F2</color>
     <color name="grey_text">#828282</color>
     <color name="favorite_button_background">#990B253F</color>
     <color name="progress_bar_primary">#21D07A</color>

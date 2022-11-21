@@ -9,7 +9,7 @@ data class MovieDetailsViewState(
     val voteAverage: Float,
     val title: String,
     val overview: String,
-    val isFavorite: Boolean,
+    var isFavorite: Boolean,
     val crew: List<CrewItemViewState>,
     val cast: List<ActorCardViewState>,
 )

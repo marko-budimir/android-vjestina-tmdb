@@ -20,7 +20,7 @@ import coil.compose.AsyncImage
 
 data class MovieCardViewState(
     val imageUrl: String?,
-    val isFavorite: Boolean
+    var isFavorite: Boolean
 )
 
 @Composable

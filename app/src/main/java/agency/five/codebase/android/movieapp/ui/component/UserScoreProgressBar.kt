@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.colorResource
@@ -18,10 +19,10 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun UserScoreProgressBar(
-    score: Double,
+    score: Float,
     modifier: Modifier = Modifier,
-    radius: Dp = 20.dp
-
+    radius: Dp = 20.dp,
+    textColor: Color = Color.Black
 ) {
     val trueScore = if (score > 10) 10 else if (score < 0) 0 else score
     val colorPrimary = colorResource(id = R.color.progress_bar_primary)
@@ -46,7 +47,8 @@ fun UserScoreProgressBar(
         }
         Text(
             text = trueScore.toString(),
-            style = Typography.h5
+            style = Typography.h5,
+            color = textColor
         )
     }
 
@@ -55,5 +57,5 @@ fun UserScoreProgressBar(
 @Preview
 @Composable
 fun UserScoreProgressBarPreview() {
-    UserScoreProgressBar(7.6)
+    UserScoreProgressBar(7.6f)
 }

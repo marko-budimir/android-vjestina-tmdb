@@ -23,6 +23,7 @@ import coil.compose.AsyncImage
 
 
 data class ActorCardViewState(
+    val id: Int,
     val imageUrl: String?,
     val name: String,
     val character: String,
@@ -69,6 +70,7 @@ fun ActorCard(
 private fun ActorCardPreview() {
     val movieActorCardViewState = MoviesMock.getActor().let { actor ->
         ActorCardViewState(
+            id = actor.id,
             imageUrl = actor.imageUrl.orEmpty(),
             name = actor.name,
             character = actor.character

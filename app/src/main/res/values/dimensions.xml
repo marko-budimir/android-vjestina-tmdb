@@ -11,4 +11,6 @@
     <dimen name="movie_card_width">122dp</dimen>
 
     <dimen name="favorites_movie_card_width">105dp</dimen>
+
+    <dimen name="movie_details_crew_spacing">50dp</dimen>
 </resources>
