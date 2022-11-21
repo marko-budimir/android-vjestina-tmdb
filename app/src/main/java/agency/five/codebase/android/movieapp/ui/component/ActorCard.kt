@@ -23,7 +23,7 @@ import coil.compose.AsyncImage
 
 
 data class ActorCardViewState(
-    val imageUrl: String,
+    val imageUrl: String?,
     val name: String,
     val character: String,
 )
