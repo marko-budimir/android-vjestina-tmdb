@@ -27,7 +27,7 @@ data class MovieCategoryLabelViewState(
 )
 
 @Composable
-fun MovieCategory(
+fun MovieCategoryLabel(
     labelViewState: MovieCategoryLabelViewState,
     onItemClick: (MovieCategoryLabelViewState) -> Unit,
     modifier: Modifier = Modifier
@@ -67,7 +67,7 @@ fun MovieCategoryPreview() {
     var isSelectedFirst by remember { mutableStateOf(true) }
     var isSelectedSecond by remember { mutableStateOf(false) }
     Row {
-        MovieCategory(
+        MovieCategoryLabel(
             MovieCategoryLabelViewState(
                 1,
                 isSelectedFirst,
@@ -78,7 +78,7 @@ fun MovieCategoryPreview() {
                 isSelectedSecond = false
             }
         )
-        MovieCategory(
+        MovieCategoryLabel(
             MovieCategoryLabelViewState(
                 1,
                 isSelectedSecond,
