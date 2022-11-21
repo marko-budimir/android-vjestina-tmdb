@@ -150,7 +150,9 @@ fun Section(
                     ),
                     onCardClick = { onCategoryClick(homeMovieViewState.id) },
                     onLikeButtonClick = { /*TODO*/ },
-                    modifier = Modifier.height(dimensionResource(id = R.dimen.movie_card_height))
+                    modifier = Modifier
+                        .height(dimensionResource(id = R.dimen.movie_card_height))
+                        .widthIn(max = dimensionResource(id = R.dimen.movie_card_width))
                 )
             }
         }

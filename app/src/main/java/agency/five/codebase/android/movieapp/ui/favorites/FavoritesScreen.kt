@@ -7,9 +7,7 @@ import agency.five.codebase.android.movieapp.ui.favorites.mapper.FavoritesMapper
 import agency.five.codebase.android.movieapp.ui.favorites.mapper.FavoritesMapperImpl
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
 import agency.five.codebase.android.movieapp.ui.theme.spacing
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -69,7 +67,8 @@ fun FavoritesScreen(
                 onLikeButtonClick = {
                     favoriteMovie.movieCardViewState.isFavorite =
                         !favoriteMovie.movieCardViewState.isFavorite
-                }
+                },
+                modifier.heightIn(max = dimensionResource(id = R.dimen.movie_card_height))
             )
         }
     }
