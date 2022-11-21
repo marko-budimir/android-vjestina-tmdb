@@ -14,4 +14,6 @@
     <color name="favorite_button_background">#990B253F</color>
     <color name="progress_bar_primary">#21D07A</color>
     <color name="progress_bar_secondary">#204529</color>
+    <color name="app_bar_background">#0B253F</color>
+    <color name="gray_bottom_bar">#BDBDBD</color>
 </resources>

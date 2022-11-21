@@ -59,6 +59,15 @@ var upcomingCategoryViewState = homeScreenMapper.toHomeMovieCategoryViewState(
 )
 
 @Composable
+fun HomeRoute(
+    onNavigateToMovieDetails: (Int) -> Unit
+) {
+    HomeScreen(
+        onCategoryClick = onNavigateToMovieDetails
+    )
+}
+
+@Composable
 fun HomeScreen(
     onCategoryClick: (Int) -> Unit,
     modifier: Modifier = Modifier
@@ -119,7 +128,7 @@ fun Section(
             ) { movieCategoryLabel ->
                 MovieCategoryLabel(
                     labelViewState = movieCategoryLabel,
-                    onItemClick = { onCategoryClick(movieCategoryLabel.itemId) }
+                    onItemClick = { /*TODO*/ }
                 )
             }
         }
@@ -139,7 +148,7 @@ fun Section(
                         imageUrl = homeMovieViewState.imageUrl,
                         isFavorite = homeMovieViewState.isFavorite
                     ),
-                    onCardClick = { /*TODO*/ },
+                    onCardClick = { onCategoryClick(homeMovieViewState.id) },
                     onLikeButtonClick = { /*TODO*/ },
                     modifier = Modifier.height(dimensionResource(id = R.dimen.movie_card_height))
                 )

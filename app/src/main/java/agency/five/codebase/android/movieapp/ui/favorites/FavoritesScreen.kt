@@ -27,21 +27,20 @@ private val favoritesMapper: FavoritesMapper = FavoritesMapperImpl()
 val favoritesViewState = favoritesMapper.toFavoritesViewState(MoviesMock.getMoviesList())
 
 @Composable
-fun favoriteRoute(
-
+fun FavoritesRoute(
+    onNavigateToMovieDetails: (Int) -> Unit
 ) {
     val viewState by remember { mutableStateOf(favoritesViewState) }
-// ...
-    /*FavoritesScreen(
-        viewState,
-// other states and actions
-    )*/
+    FavoritesScreen(
+        viewState = viewState,
+        onCardClick = onNavigateToMovieDetails
+    )
 }
 
 @Composable
 fun FavoritesScreen(
     viewState: FavoritesViewState,
-    onCardClick: () -> Unit,
+    onCardClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
@@ -66,7 +65,7 @@ fun FavoritesScreen(
         ) { favoriteMovie ->
             MovieCard(
                 movieCardViewState = favoriteMovie.movieCardViewState,
-                onCardClick = onCardClick,
+                onCardClick = { onCardClick(favoriteMovie.id) },
                 onLikeButtonClick = {
                     favoriteMovie.movieCardViewState.isFavorite =
                         !favoriteMovie.movieCardViewState.isFavorite
