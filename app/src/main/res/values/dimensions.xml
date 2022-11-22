@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xm    l version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="actor_card_elevation">20dp</dimen>
     <dimen name="actor_card_height">209dp</dimen>
