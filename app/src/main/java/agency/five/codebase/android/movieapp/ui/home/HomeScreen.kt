@@ -94,9 +94,7 @@ fun HomeScreen(
                 onCategoryClick = onCategoryClick
             )
         }
-
     }
-
 }
 
 @Composable
@@ -122,9 +120,7 @@ fun Section(
         ) {
             items(
                 items = viewState.movieCategories,
-                key = { homeMovieViewState ->
-                    homeMovieViewState.itemId
-                }
+                key = { homeMovieViewState -> homeMovieViewState.itemId }
             ) { movieCategoryLabel ->
                 MovieCategoryLabel(
                     labelViewState = movieCategoryLabel,
@@ -139,9 +135,7 @@ fun Section(
         ) {
             items(
                 items = popularCategoryViewState.movies,
-                key = { homeMovieViewState ->
-                    homeMovieViewState.id
-                }
+                key = { homeMovieViewState -> homeMovieViewState.id }
             ) { homeMovieViewState ->
                 MovieCard(
                     movieCardViewState = MovieCardViewState(
@@ -186,7 +180,6 @@ fun selectCategory(itemId: Int) {
                 )
         }
     }
-
 }
 
 @Preview

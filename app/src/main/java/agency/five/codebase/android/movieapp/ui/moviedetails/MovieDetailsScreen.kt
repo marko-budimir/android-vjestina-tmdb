@@ -29,7 +29,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
 
 
@@ -74,11 +73,11 @@ fun MovieDetailsTitle(
     viewState: MovieDetailsViewState,
     onLikeButtonClick: () -> Unit,
 ) {
-    ConstraintLayout(
-        modifier = Modifier
-            .fillMaxWidth()
+    Box(
+        contentAlignment = Alignment.BottomStart,
+        modifier = Modifier.fillMaxWidth()
     ) {
-        val (image, column) = createRefs()
+        //val (image, column) = createRefs()
         AsyncImage(
             model = viewState.imageUrl,
             placeholder = painterResource(id = R.drawable.ic_broken_image),
@@ -87,17 +86,10 @@ fun MovieDetailsTitle(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(300.dp)
-                .constrainAs(image) {
-                    top.linkTo(parent.top)
-                }
         )
 
         Column(
-            modifier = Modifier
-                .padding(MaterialTheme.spacing.medium)
-                .constrainAs(column) {
-                    bottom.linkTo(image.bottom)
-                }
+            modifier = Modifier.padding(MaterialTheme.spacing.medium)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -129,7 +121,6 @@ fun MovieDetailsTitle(
                 onClick = onLikeButtonClick
             )
         }
-
     }
 }
 
@@ -154,19 +145,15 @@ fun MovieDetailsOverView(
         Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
         LazyHorizontalGrid(
             rows = GridCells.Fixed(2),
-            horizontalArrangement = Arrangement.spacedBy(
-                space = MaterialTheme.spacing.extraLarge
-            ),
+            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraLarge),
             userScrollEnabled = false,
             modifier = Modifier
-                .height(120.dp)
+                .height(dimensionResource(id = R.dimen.movie_details_crew_height))
                 .fillMaxWidth()
         ) {
             items(
                 items = viewState.crew,
-                key = { crewman ->
-                    crewman.id
-                }
+                key = { crewman -> crewman.id }
             ) { crewman ->
                 CrewItem(
                     crewItemViewState = CrewItemViewState(
@@ -193,14 +180,10 @@ fun MovieDetailsTopCast(
             modifier = Modifier.padding(horizontal = MaterialTheme.spacing.medium)
         )
         LazyRow {
-            item {
-                Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
-            }
+            item { Spacer(modifier = Modifier.width(MaterialTheme.spacing.small)) }
             items(
                 items = viewState.cast,
-                key = { actor ->
-                    actor.id
-                }
+                key = { actor -> actor.id }
             ) { actor ->
                 ActorCard(
                     actorCardViewState = actor,
