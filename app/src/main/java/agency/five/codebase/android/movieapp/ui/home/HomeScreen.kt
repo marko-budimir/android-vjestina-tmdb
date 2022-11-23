@@ -59,9 +59,7 @@ var upcomingCategoryViewState = homeScreenMapper.toHomeMovieCategoryViewState(
 )
 
 @Composable
-fun HomeRoute(
-    onNavigateToMovieDetails: (Int) -> Unit
-) {
+fun HomeRoute(onNavigateToMovieDetails: (Int) -> Unit) {
     HomeScreen(
         onCategoryClick = onNavigateToMovieDetails
     )

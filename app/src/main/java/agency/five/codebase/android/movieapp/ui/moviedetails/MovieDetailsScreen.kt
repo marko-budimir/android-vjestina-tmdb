@@ -49,9 +49,7 @@ fun MovieDetailsScreen(
     viewState: MovieDetailsViewState,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(
-        modifier = modifier
-    ) {
+    LazyColumn(modifier = modifier) {
         item {
             MovieDetailsTitle(viewState) { viewState.isFavorite = !viewState.isFavorite }
         }
@@ -88,12 +86,8 @@ fun MovieDetailsTitle(
                 .height(300.dp)
         )
 
-        Column(
-            modifier = Modifier.padding(MaterialTheme.spacing.medium)
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+        Column(modifier = Modifier.padding(MaterialTheme.spacing.medium)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 UserScoreProgressBar(
                     score = movieDetailsViewState.voteAverage,
                     textColor = colorResource(id = R.color.white_text),
