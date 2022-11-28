@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xm    l version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="actor_card_elevation">20dp</dimen>
     <dimen name="actor_card_height">209dp</dimen>
@@ -9,4 +9,8 @@
     <dimen name="movie_card_elevation">10dp</dimen>
     <dimen name="movie_card_height">179dp</dimen>
     <dimen name="movie_card_width">122dp</dimen>
+
+    <dimen name="favorites_movie_card_width">105dp</dimen>
+
+    <dimen name="movie_details_crew_height">120dp</dimen>
 </resources>

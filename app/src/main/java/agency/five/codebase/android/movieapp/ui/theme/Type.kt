@@ -62,6 +62,11 @@ val Typography = Typography(
         fontFamily = proximaNovaFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp
+    ),
+    overline = TextStyle(
+        fontFamily = proximaNovaFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 10.sp
     )
 
     /* Other default text styles to override
