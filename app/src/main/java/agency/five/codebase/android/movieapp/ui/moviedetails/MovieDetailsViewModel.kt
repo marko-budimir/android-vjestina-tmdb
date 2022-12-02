@@ -14,7 +14,18 @@ class MovieDetailsViewModel(
     private val movieDetailsMapper: MovieDetailsMapper
 ) : ViewModel() {
 
-    private lateinit var _movieDetailsViewState: MutableStateFlow<MovieDetailsViewState>
+    private val _movieDetailsViewState = MutableStateFlow(
+        MovieDetailsViewState(
+            id = 1,
+            imageUrl = null,
+            voteAverage = 0.0f,
+            title = "",
+            overview = "",
+            isFavorite = false,
+            crew = listOf(),
+            cast = listOf()
+        )
+    )
     val movieDetailsViewState = _movieDetailsViewState.asStateFlow()
 
     init {
