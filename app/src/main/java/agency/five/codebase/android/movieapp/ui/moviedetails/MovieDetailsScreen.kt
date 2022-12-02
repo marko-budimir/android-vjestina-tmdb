@@ -17,9 +17,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -31,27 +30,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
-
-private val movieDetailsMapper: MovieDetailsMapper = MovieDetailsMapperImpl()
-
-val movieDetailsViewState = movieDetailsMapper.toMovieDetailsViewState(MoviesMock.getMovieDetails())
-
 @Composable
-fun MovieDetailsRoute() {
-    val viewState by remember { mutableStateOf(movieDetailsViewState) }
+fun MovieDetailsRoute(viewModel: MovieDetailsViewModel) {
+    val viewState: MovieDetailsViewState by viewModel.movieDetailsViewState.collectAsState()
     MovieDetailsScreen(
-        viewState
+        viewState = viewState,
+        onLikeButtonClick = { movieId -> viewModel.toggleFavorite(movieId) }
     )
 }
 
 @Composable
 fun MovieDetailsScreen(
     viewState: MovieDetailsViewState,
+    onLikeButtonClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier) {
         item {
-            MovieDetailsTitle(viewState) { viewState.isFavorite = !viewState.isFavorite }
+            MovieDetailsTitle(viewState) { onLikeButtonClick(viewState.id) }
         }
         item {
             MovieDetailsOverView(
@@ -89,7 +85,7 @@ fun MovieDetailsTitle(
         Column(modifier = Modifier.padding(MaterialTheme.spacing.medium)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 UserScoreProgressBar(
-                    score = movieDetailsViewState.voteAverage,
+                    score = viewState.voteAverage,
                     textColor = colorResource(id = R.color.white_text),
                     modifier = Modifier.padding(end = MaterialTheme.spacing.small)
                 )
@@ -101,7 +97,7 @@ fun MovieDetailsTitle(
             }
 
             Text(
-                text = movieDetailsViewState.title,
+                text = viewState.title,
                 style = MaterialTheme.typography.h2,
                 color = colorResource(id = R.color.white_text),
                 modifier = Modifier.padding(
@@ -111,7 +107,7 @@ fun MovieDetailsTitle(
             )
             FavoriteButton(
                 backgroundColor = colorResource(id = R.color.favorite_button_background),
-                isFavorite = movieDetailsViewState.isFavorite,
+                isFavorite = viewState.isFavorite,
                 onClick = onLikeButtonClick
             )
         }
@@ -196,9 +192,14 @@ fun MovieDetailsTopCast(
 @Preview
 @Composable
 fun MovieDetailsScreenPreview() {
+    val movieDetailsMapper: MovieDetailsMapper = MovieDetailsMapperImpl()
+    val movieDetailsViewState = movieDetailsMapper.toMovieDetailsViewState(
+        MoviesMock.getMovieDetails()
+    )
     MovieAppTheme {
         MovieDetailsScreen(
             movieDetailsViewState,
+            onLikeButtonClick = {},
             modifier = Modifier.fillMaxWidth()
         )
     }
