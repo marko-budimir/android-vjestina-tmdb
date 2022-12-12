@@ -15,26 +15,24 @@ import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 
-private val favoritesMapper: FavoritesMapper = FavoritesMapperImpl()
-
-val favoritesViewState = favoritesMapper.toFavoritesViewState(MoviesMock.getMoviesList())
 
 @Composable
 fun FavoritesRoute(
-    onNavigateToMovieDetails: (Int) -> Unit
+    onNavigateToMovieDetails: (Int) -> Unit,
+    viewModel: FavoritesViewModel
 ) {
-    val viewState by remember { mutableStateOf(favoritesViewState) }
+    val viewState: FavoritesViewState by viewModel.favoritesViewState.collectAsState()
     FavoritesScreen(
         viewState = viewState,
-        onCardClick = onNavigateToMovieDetails
+        onCardClick = onNavigateToMovieDetails,
+        onLikeButtonClick = { movieId -> viewModel.toggleFavorite(movieId) }
     )
 }
 
@@ -42,6 +40,7 @@ fun FavoritesRoute(
 fun FavoritesScreen(
     viewState: FavoritesViewState,
     onCardClick: (Int) -> Unit,
+    onLikeButtonClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
@@ -65,16 +64,12 @@ fun FavoritesScreen(
             MovieCard(
                 movieCardViewState = favoriteMovie.movieCardViewState,
                 onCardClick = { onCardClick(favoriteMovie.id) },
-                onLikeButtonClick = {
-                    favoriteMovie.movieCardViewState.isFavorite =
-                        !favoriteMovie.movieCardViewState.isFavorite
-                },
+                onLikeButtonClick = { onLikeButtonClick(favoriteMovie.id) },
                 modifier.heightIn(max = dimensionResource(id = R.dimen.movie_card_height))
             )
         }
     }
 }
-
 
 fun LazyGridScope.title(
     content: @Composable LazyGridItemScope.() -> Unit
@@ -85,10 +80,13 @@ fun LazyGridScope.title(
 @Preview
 @Composable
 fun FavoritesScreenPreview() {
+    val favoritesMapper: FavoritesMapper = FavoritesMapperImpl()
+    val favoritesViewState = favoritesMapper.toFavoritesViewState(MoviesMock.getMoviesList())
     MovieAppTheme {
         FavoritesScreen(
             viewState = favoritesViewState,
-            onCardClick = {}
+            onCardClick = {},
+            onLikeButtonClick = {}
         )
     }
 }

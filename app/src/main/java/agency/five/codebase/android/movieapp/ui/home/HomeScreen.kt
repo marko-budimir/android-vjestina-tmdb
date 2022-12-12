@@ -2,7 +2,6 @@ package agency.five.codebase.android.movieapp.ui.home
 
 import agency.five.codebase.android.movieapp.R
 import agency.five.codebase.android.movieapp.mock.MoviesMock
-import agency.five.codebase.android.movieapp.model.MovieCategory
 import agency.five.codebase.android.movieapp.model.MovieCategory.*
 import agency.five.codebase.android.movieapp.ui.component.MovieCard
 import agency.five.codebase.android.movieapp.ui.component.MovieCardViewState
@@ -18,6 +17,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
@@ -42,32 +43,36 @@ val upcoming = listOf(
     UPCOMING_THIS_WEEK
 )
 
-var popularCategoryViewState = homeScreenMapper.toHomeMovieCategoryViewState(
-    movieCategories = popular,
-    selectedMovieCategory = POPULAR_STREAMING,
-    movies = movies
-)
-var nowPlayingCategoryViewState = homeScreenMapper.toHomeMovieCategoryViewState(
-    movieCategories = nowPlaying,
-    selectedMovieCategory = NOW_PLAYING_MOVIES,
-    movies = movies
-)
-var upcomingCategoryViewState = homeScreenMapper.toHomeMovieCategoryViewState(
-    movieCategories = upcoming,
-    selectedMovieCategory = UPCOMING_TODAY,
-    movies = movies
-)
-
 @Composable
-fun HomeRoute(onNavigateToMovieDetails: (Int) -> Unit) {
+fun HomeRoute(
+    onNavigateToMovieDetails: (Int) -> Unit,
+    viewModel: HomeViewModel
+) {
+    val popularCategoryViewState: HomeMovieCategoryViewState by viewModel
+        .popularCategoryViewState.collectAsState()
+
+    val nowPlayingCategoryViewState: HomeMovieCategoryViewState by viewModel
+        .nowPlayingCategoryViewState.collectAsState()
+
+    val upcomingCategoryViewState: HomeMovieCategoryViewState by viewModel
+        .upcomingCategoryViewState.collectAsState()
+
     HomeScreen(
-        onCategoryClick = onNavigateToMovieDetails
+        onCategoryClick = onNavigateToMovieDetails,
+        onLikeButtonClick = { movieId -> viewModel.toggleFavorite(movieId) },
+        popularCategoryViewState = popularCategoryViewState,
+        nowPlayingCategoryViewState = nowPlayingCategoryViewState,
+        upcomingCategoryViewState = upcomingCategoryViewState
     )
 }
 
 @Composable
 fun HomeScreen(
     onCategoryClick: (Int) -> Unit,
+    onLikeButtonClick: (Int) -> Unit,
+    popularCategoryViewState: HomeMovieCategoryViewState,
+    nowPlayingCategoryViewState: HomeMovieCategoryViewState,
+    upcomingCategoryViewState: HomeMovieCategoryViewState,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier) {
@@ -75,21 +80,24 @@ fun HomeScreen(
             Section(
                 viewState = popularCategoryViewState,
                 header = stringResource(id = R.string.what_is_popular),
-                onCategoryClick = onCategoryClick
+                onCategoryClick = onCategoryClick,
+                onLikeButtonClick = onLikeButtonClick
             )
         }
         item {
             Section(
                 viewState = nowPlayingCategoryViewState,
                 header = stringResource(id = R.string.now_playing),
-                onCategoryClick = onCategoryClick
+                onCategoryClick = onCategoryClick,
+                onLikeButtonClick = onLikeButtonClick
             )
         }
         item {
             Section(
                 viewState = upcomingCategoryViewState,
                 header = stringResource(id = R.string.upcoming),
-                onCategoryClick = onCategoryClick
+                onCategoryClick = onCategoryClick,
+                onLikeButtonClick = onLikeButtonClick
             )
         }
     }
@@ -100,6 +108,7 @@ fun Section(
     viewState: HomeMovieCategoryViewState,
     header: String,
     onCategoryClick: (Int) -> Unit,
+    onLikeButtonClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
@@ -132,7 +141,7 @@ fun Section(
             modifier = Modifier.padding(bottom = MaterialTheme.spacing.medium)
         ) {
             items(
-                items = popularCategoryViewState.movies,
+                items = viewState.movies,
                 key = { homeMovieViewState -> homeMovieViewState.id }
             ) { homeMovieViewState ->
                 MovieCard(
@@ -141,7 +150,7 @@ fun Section(
                         isFavorite = homeMovieViewState.isFavorite
                     ),
                     onCardClick = { onCategoryClick(homeMovieViewState.id) },
-                    onLikeButtonClick = { /*TODO*/ },
+                    onLikeButtonClick = { onLikeButtonClick(homeMovieViewState.id) },
                     modifier = Modifier
                         .height(dimensionResource(id = R.dimen.movie_card_height))
                         .widthIn(max = dimensionResource(id = R.dimen.movie_card_width))
@@ -151,39 +160,31 @@ fun Section(
     }
 }
 
-fun selectCategory(itemId: Int) {
-    when (itemId) {
-        0, 1, 2, 3 -> {
-            popularCategoryViewState =
-                homeScreenMapper.toHomeMovieCategoryViewState(
-                    popular,
-                    MovieCategory.values()[itemId],
-                    movies
-                )
-        }
-        4, 5 -> {
-            nowPlayingCategoryViewState =
-                homeScreenMapper.toHomeMovieCategoryViewState(
-                    nowPlaying,
-                    MovieCategory.values()[itemId],
-                    movies
-                )
-        }
-        else -> {
-            upcomingCategoryViewState =
-                homeScreenMapper.toHomeMovieCategoryViewState(
-                    upcoming,
-                    MovieCategory.values()[itemId],
-                    movies
-                )
-        }
-    }
-}
-
 @Preview
 @Composable
 fun HomeScreenPreview() {
+    val popularCategoryViewState = homeScreenMapper.toHomeMovieCategoryViewState(
+        movieCategories = popular,
+        selectedMovieCategory = POPULAR_STREAMING,
+        movies = movies
+    )
+    val nowPlayingCategoryViewState = homeScreenMapper.toHomeMovieCategoryViewState(
+        movieCategories = nowPlaying,
+        selectedMovieCategory = NOW_PLAYING_MOVIES,
+        movies = movies
+    )
+    val upcomingCategoryViewState = homeScreenMapper.toHomeMovieCategoryViewState(
+        movieCategories = upcoming,
+        selectedMovieCategory = UPCOMING_TODAY,
+        movies = movies
+    )
     MovieAppTheme {
-        HomeScreen({ itemId -> selectCategory(itemId) })
+        HomeScreen(
+            onCategoryClick = {},
+            onLikeButtonClick = {},
+            popularCategoryViewState = popularCategoryViewState,
+            nowPlayingCategoryViewState = nowPlayingCategoryViewState,
+            upcomingCategoryViewState = upcomingCategoryViewState,
+        )
     }
 }
