@@ -1,7 +1,11 @@
 package agency.five.codebase.android.movieapp.data.di
 
+import agency.five.codebase.android.movieapp.data.network.MovieService
+import agency.five.codebase.android.movieapp.data.network.MovieServiceImpl
+import android.util.Log
 import io.ktor.client.*
 import io.ktor.client.engine.android.*
+import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import org.koin.dsl.module
 
@@ -11,11 +15,15 @@ val networkModule = module {
 
     single {
         HttpClient(Android) {
-            engine {
-                connectTimeout = 10000
-                socketTimeout = 10000
+            install(Logging) {
+                logger = object : Logger {
+                    override fun log(message: String) {
+                        Log.d("HTTP", message)
+                    }
+                }
+                level = LogLevel.ALL
             }
-            install(Logging)
+            install(ContentNegotiation)
         }
     }
 }
