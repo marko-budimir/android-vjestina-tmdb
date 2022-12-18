@@ -10,11 +10,11 @@ import kotlinx.coroutines.flow.Flow
 interface FavoriteMovieDao {
 
     @Query("SELECT * FROM favorite_movies")
-    suspend fun getAll(): Flow<List<DbFavoriteMovie>>
+    fun getAll(): Flow<List<DbFavoriteMovie>>
 
     @Insert
-    suspend fun insert(movie: DbFavoriteMovie)
+    fun insert(movie: DbFavoriteMovie)
 
     @Delete
-    suspend fun delete(movie: DbFavoriteMovie)
+    fun delete(movie: DbFavoriteMovie)
 }
