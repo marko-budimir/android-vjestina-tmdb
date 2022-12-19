@@ -136,7 +136,6 @@ fun MovieDetailsOverView(
         LazyHorizontalGrid(
             rows = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraLarge),
-            userScrollEnabled = false,
             modifier = Modifier
                 .height(dimensionResource(id = R.dimen.movie_details_crew_height))
                 .fillMaxWidth()
