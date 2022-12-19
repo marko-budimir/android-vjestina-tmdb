@@ -143,7 +143,7 @@ fun MovieDetailsOverView(
         ) {
             items(
                 items = viewState.crew,
-                key = { crewman -> crewman.id }
+                key = { crewman -> crewman.hashCode() }
             ) { crewman ->
                 CrewItem(
                     crewItemViewState = CrewItemViewState(
