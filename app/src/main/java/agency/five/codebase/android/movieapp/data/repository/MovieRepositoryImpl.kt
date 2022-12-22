@@ -9,7 +9,6 @@ import agency.five.codebase.android.movieapp.model.MovieDetails
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.runBlocking
 
 
 class MovieRepositoryImpl(
@@ -94,33 +93,26 @@ class MovieRepositoryImpl(
                 movieDao.insert(dbFavoriteMovie)
             }
         }
-
     }
 
     private suspend fun findMovie(movieId: Int): Movie? {
-        var movie: Movie? = null
-        moviesByCategory.values.forEach { value ->
-            val movies = value.first()
-            movies.forEach {
-                if (it.id == movieId) {
-                    movie = it
-                }
+        moviesByCategory.values.forEach { movies ->
+            val movie = movies.first().find { it.id == movieId }
+            if (movie != null) {
+                return movie
             }
-
         }
-        return movie
+        return null
     }
 
     override suspend fun removeMovieFromFavorites(movieId: Int) = movieDao.delete(movieId)
 
     override suspend fun toggleFavorite(movieId: Int) {
-        runBlocking(bgDispatcher) {
-            val movie = findMovie(movieId)
-            if (movie?.isFavorite == true) {
-                removeMovieFromFavorites(movieId)
-            } else {
-                addMovieToFavorites(movieId)
-            }
+        val movies = favorites.first().find { it.id == movieId }
+        if (movies != null) {
+            removeMovieFromFavorites(movieId)
+        } else {
+            addMovieToFavorites(movieId)
         }
     }
 }
