@@ -5,6 +5,7 @@ import agency.five.codebase.android.movieapp.model.MovieCategory
 import agency.five.codebase.android.movieapp.ui.home.mapper.HomeScreenMapper
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +14,8 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val movieRepository: MovieRepository,
-    private val homeScreenMapper: HomeScreenMapper
+    private val homeScreenMapper: HomeScreenMapper,
+    private val bgDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _popularCategoryViewState =
@@ -68,7 +70,7 @@ class HomeViewModel(
     }
 
     fun toggleFavorite(movieId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(bgDispatcher) {
             movieRepository.toggleFavorite(movieId)
         }
     }

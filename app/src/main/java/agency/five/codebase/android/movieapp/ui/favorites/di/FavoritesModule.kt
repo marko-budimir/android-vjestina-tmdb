@@ -1,5 +1,6 @@
 package agency.five.codebase.android.movieapp.ui.favorites.di
 
+import agency.five.codebase.android.movieapp.data.di.BACKGROUND_DISPATCHER
 import agency.five.codebase.android.movieapp.ui.favorites.FavoritesViewModel
 import agency.five.codebase.android.movieapp.ui.favorites.mapper.FavoritesMapper
 import agency.five.codebase.android.movieapp.ui.favorites.mapper.FavoritesMapperImpl
@@ -10,8 +11,9 @@ import org.koin.dsl.module
 val favoritesModule = module {
     viewModel {
         FavoritesViewModel(
-            movieRepository = get(named("dispatcherIo")),
-            favoritesScreenMapper = get()
+            movieRepository = get(),
+            favoritesScreenMapper = get(),
+            bgDispatcher = get(named(BACKGROUND_DISPATCHER))
         )
     }
     single<FavoritesMapper> { FavoritesMapperImpl() }
