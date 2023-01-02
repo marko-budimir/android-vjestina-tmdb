@@ -46,7 +46,7 @@ fun UserScoreProgressBar(
 
         }
         Text(
-            text = trueScore.toString(),
+            text = String.format("%.1f", trueScore),
             style = Typography.h5,
             color = textColor
         )

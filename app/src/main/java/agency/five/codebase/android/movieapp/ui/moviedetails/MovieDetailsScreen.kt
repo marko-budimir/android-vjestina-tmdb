@@ -136,14 +136,13 @@ fun MovieDetailsOverView(
         LazyHorizontalGrid(
             rows = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraLarge),
-            userScrollEnabled = false,
             modifier = Modifier
                 .height(dimensionResource(id = R.dimen.movie_details_crew_height))
                 .fillMaxWidth()
         ) {
             items(
                 items = viewState.crew,
-                key = { crewman -> crewman.id }
+                key = { crewman -> crewman.hashCode() }
             ) { crewman ->
                 CrewItem(
                     crewItemViewState = CrewItemViewState(

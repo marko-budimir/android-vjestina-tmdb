@@ -4,6 +4,7 @@ import agency.five.codebase.android.movieapp.data.repository.MovieRepository
 import agency.five.codebase.android.movieapp.ui.moviedetails.mapper.MovieDetailsMapper
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -11,7 +12,8 @@ import kotlinx.coroutines.launch
 class MovieDetailsViewModel(
     private val movieId: Int,
     private val movieRepository: MovieRepository,
-    private val movieDetailsMapper: MovieDetailsMapper
+    private val movieDetailsMapper: MovieDetailsMapper,
+    private val bgDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _movieDetailsViewState = MutableStateFlow(
@@ -42,7 +44,7 @@ class MovieDetailsViewModel(
     }
 
     fun toggleFavorite(movieId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(bgDispatcher) {
             movieRepository.toggleFavorite(movieId)
         }
     }
